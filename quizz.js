@@ -12,19 +12,6 @@ let DOM ={
  answerDOM: document.querySelectorAll('input[name = "option"]')
 }
 
-// clear the global scope
-// decoupled the validation from my DOM content
-// made my score fuinction independent and dependent on validaetanswers
-// made my lock option independent and dependent on islocked
-// refractored my changeState
-
-
-// i need to understand this: why layring works and what are the rules ?
-// what is this + thing? input[type="checkbox"]:checked + .onOrOff::before
-// that HTML CSS property trick is insane for colors
-// the ::after and ::before trick on backgroud to fade
-// changing the width of the element based on my progressVisual function to paint the bar
-
 let state = {
     allQuizzes: null,
     currentIndex: 0,
