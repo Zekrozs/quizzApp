@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="quizz.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="quizz.js" defer></script>
+  <title>Frontend Mentor | Frontend quiz app</title>
+</head>
+<body>
+  <main class="main-wrapper">
+    <section class="lightAndSubject">
+      <div class="quizzDetails" data-refresh="refresh" >
+        <!-- ---header---  -->
+
+         <!-- home button -->
+        <div class="quizzIconContainer">
+        <img  class="quizzIcon" src="">
+        </div>
+          <p class="quizzSubject"></p>
+      </div>
+          <!-- light settings -->
+      <div class="lightSettings">
+            <img src="assets/images/icon-sun-light.svg" alt="light mode" class="hidden light-icon icon">
+            <img src="assets/images/icon-sun-dark.svg" class=" dark-icon icon " alt="light mode">
+            <label for="switch" class="modeSlider" data-switch="switch mode" >
+              <input type="checkbox" class="slider" id="switch">
+              <div class="onOrOff"></div>
+            </label>
+            
+            <img src="assets/images/icon-moon-light.svg" class="hidden light-icon icon">
+            <img src="assets/images/icon-moon-dark.svg" class=" dark-icon icon">
+          </div>
+      </section>
+
+      <!-- --- APP --- -->
+    <article class="quizzApp">
+      <section class="quizz">
+        <!-- the quizz welcome message, or questions if quiz starts -->
+         <section class="introOrQuestion">
+          <h1 class="welcomeText">Welcome to the <b>Frontend Quiz!</b> </h1>
+          <p class="smallText currentQuestion"></p>
+          <p class="questions hidden"></p> 
+          <p class="smallText welcome">Pick a subject to get started.</p>
+          <p class="question"></p>
+          <!-- progress bar -->
+          <div class="progressBarContainer hidden">
+          <div class="progressBar"></div> 
+          </div>
+      </section>
+      <!-- the quizz selection cards or answer cards depending if quizz started -->
+        <form id="form">
+        <label class="card" style="--text-theme-color: hsl(27, 100%, 80%)" id="HTML" data-quizz="load subject and icons">
+          <input type="radio" name="subject">
+           <div class="boxAndText">
+          
+          <div class="box HTML-icon">
+            <img src="assets/images/icon-html.svg">
+          </div>
+          <p class="cardsText">HTML</p>
+          </div>
+        
+        </label>
+        <label class="card  selection hidden " data-start="start quizz">
+          <input type="radio" name="option">
+           <div class="boxAndText">
+          <div class="Letter box">
+            <p>A</p>
+          </div>
+          <p class="answer"></p>
+          </div>
+          <img src="assets/images/icon-incorrect.svg" class=" statusIamgeWrong statusIamge hidden" alt="incorrect">
+          <img src="assets/images/icon-correct.svg" class="statusIamgeRight statusIamge hidden" alt="correct">
+        </label>
+        <label class="card" style="--text-theme-color: hsl(151, 88%, 75%)"  id="CSS" data-quizz="load subject and icons">
+          <input type="radio" name="subject">
+          <div class="boxAndText">
+          <div class="box CSS-icon">
+            <img src="assets/images/icon-css.svg">
+          </div>
+          <p class="cardsText">CSS</p>
+          </div>
+        </label>
+        <label class="card  selection hidden" data-start="start quizz">
+          <input type="radio" name="option">
+           <div class="boxAndText">
+          <div class="Letter box">
+            <p>B</p>
+          </div>
+          <p class="answer"></p>
+          </div>
+          <img src="assets/images/icon-incorrect.svg" class=" statusIamgeWrong statusIamge hidden" alt="incorrect">
+          <img src="assets/images/icon-correct.svg" class="statusIamgeRight statusIamge hidden" alt="correct">
+        </label>
+        <label class="card" style="--text-theme-color:hsl(225, 100%, 85%)"  id="JavaScript" data-quizz="load subject and icons">
+          <input type="radio" name="subject">
+          <div class="boxAndText">
+          <div class="box JavaScript-icon">
+            <img src="assets/images/icon-js.svg">
+          </div>
+          <p class="cardsText">JavaScript</p>
+          </div>
+        </label>
+        <label class="card  selection hidden" data-start="start quizz">
+          <input type="radio" name="option">
+           <div class="boxAndText">
+          <div class="Letter box">
+            <p>C</p>
+          </div>
+           <p class="answer"></p>
+          </div>
+          <img src="assets/images/icon-incorrect.svg" class=" statusIamgeWrong statusIamge hidden" alt="incorrect">
+          <img src="assets/images/icon-correct.svg" class="statusIamgeRight statusIamge hidden" alt="correct">
+        </label>
+        <label class="card" style="--text-theme-color: hsl(278, 100%, 85%)" id="Accessibility" data-quizz="load subject and icons">
+          <input type="radio" name="subject">
+          <div class="boxAndText">
+          <div class="box Accessibility-icon">
+            <img src="assets/images/icon-accessibility.svg">
+          </div>
+          <p class="cardsText"> Accessibility</p>
+          </div>
+        </label>
+        <label class="card  selection hidden" data-start="start quizz">
+          <input type="radio" name="option">
+           <div class="boxAndText">
+          <div class="Letter box">
+            <p>D</p>
+          </div>
+          <p class="answer"></p>
+          </div>
+          <img src="assets/images/icon-incorrect.svg" class=" statusIamgeWrong statusIamge  hidden" alt="incorrect">
+          <img src="assets/images/icon-correct.svg" class="statusIamgeRight statusIamge hidden" alt="correct">
+        </label>
+        <!-- state button -->
+        <button class="btn next hidden" type="button" data-state="submit">Submit Answer</button> 
+        <div class="hidden error">
+          <img src="assets/images/icon-error.svg">
+          <p class="errorMessage" >please select an answer</p>
+        </div> 
+      </form>
+      
+      </section>
+      <!-- --- results page --- -->
+      <section class="result hidden">
+        <h1 class="completion">
+          Quiz completed <b>you scored...</b>
+        </h1>
+        <!-- score card -->
+        <div class="finalScoreCard">
+        <div class="scoreDetails">
+            <div class="iconAndSubject">
+              <div class="quizzIconContainer">
+            <img class="quizzIcon" src="">
+            </div>
+            <p class="quizzSubject subjectEndPage"></p>
+          </div>
+          <p class="score"></p>
+          <p class="outOf smallText">out of 10</p>
+        </div>
+        <!-- refresh button -->
+        <button  class="btn" data-refresh="refresh" >Play Again</button>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
