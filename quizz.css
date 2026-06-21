@@ -1,0 +1,614 @@
+*{margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+
+/* setup */
+
+/* colors */
+
+:root{
+    --white: hsl(0, 100%, 100%);
+    --black: hsl(0, 0%, 0%);
+
+    /* grey */
+    --grey-500: hsl(219, 13%, 44%);
+    --grey-50: hsl(220, 38%, 97%);
+
+    /* blue */
+    --blue-950: hsl(214, 24%, 23%);
+    --blue-900: hsl(216, 25%, 25%);
+    --blue-850: hsl(215, 27%, 32%);
+    --blue-500: hsl(223, 100%, 59%);
+    --blue-300: hsl(216, 47%, 78%);
+    --blue-100: hsl(220, 50%, 95%);
+    --blue-50: hsl(225, 100%, 96%);
+
+    /* green */
+    --green-500: hsl(151, 68%, 52%);
+    --green-100: hsl(151, 88%, 94%);
+
+    /* purple */
+    --purple-600: hsl(277, 91%, 56%);
+    --purple-100: hsl(278, 100%, 95%);
+
+    /* orange */
+    --orange-400: hsl(22, 100%, 60%);
+    --orange-50: hsl(27, 100%, 96%);
+    
+    /* red */
+    --red:hsl(0, 82%, 63%);
+
+}
+
+
+body{
+    position: relative;
+    z-index: 2;
+    font-family: Rubik,sans-serif;
+    min-height: 100svh;
+    background-color: hsla(228, 33%, 97%, 0.715);
+    transition: 0.3s ease-in-out;
+    padding-block-start: clamp(1rem, 1rem + 5vw, 6rem);
+    padding-block-end: clamp(1rem, 1rem + 3vw, 3rem);
+ 
+}
+  
+/* background image: before and after to change image on theme switch since transition doesnt work to morph backgrounds */
+body::before, body::after{
+    content: '';
+    position: fixed;
+    inset:0;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    transition: opacity 0.3s ease-in-out;
+}
+body::before{
+    background-image: url(assets/images/pattern-background-mobile-light.svg);
+    opacity: 1;
+}
+
+body::after{
+    background-image: url(assets/images/pattern-background-mobile-dark.svg);
+    opacity: 0;
+}
+
+/* change opacity to display dark image */
+body.dark-mode::before{
+    opacity: 0;
+}
+
+body.dark-mode::after{
+    opacity: 1;
+}
+
+/* App styling*/
+.main-wrapper{
+    width: 90% ;
+    margin: 0 auto;
+    max-width: 40rem;
+    
+}
+
+.quizz{
+    display: grid;
+}
+
+/**** the mode switcher and quiz home button****/
+/* theme switch styling */
+.lightSettings{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: clamp(0.5rem, 0.3rem + 0.5vw, 0.7rem) ;
+}
+
+.icon{
+    width: clamp(1rem, 0.8rem + 0.8vw, 1.5rem);
+}
+
+/* mode switch: we hide the checkbox and style our own */
+
+input[type="checkbox"]{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.modeSlider{
+    position: relative;
+    width: 2.2rem;
+    height: 1.3rem;
+}
+
+/* slider: inset 0 to make it span the whole modeSlider */
+.onOrOff{
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: var(--purple-600);
+border-radius: 2rem;
+transition: background-color 0.3s ease
+}
+
+/* knob: we style our own knob with before, position it absolute because we are using label as parent
+so normal styling doesnt work */
+.onOrOff::before{
+    content: '';
+    position: absolute;
+    background-color: var(--purple-100);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    top: 4px;
+    left:3px;
+    transition: transform 0.3s ease;
+}
+
+/* when checked change the knob position */
+input[type="checkbox"]:checked + .onOrOff::before{
+    transform: translateX(1rem) ;
+}
+
+.lightAndSubject{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: clamp(1rem, 1rem + 5vw, 5rem);
+     
+}
+
+/* home button */
+.quizzDetails{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 1rem + 1vw,1.5rem);
+}
+
+/* main App */
+.quizzApp{
+    margin: 0 auto;
+}
+
+.currentQuestion{
+  margin-block-end: 1.5rem;
+  font-size: clamp(0.9rem, 0.7rem + 1vw, 1.5rem);
+  
+}
+
+.welcome{
+    margin-block-start: clamp(1rem, 1rem + 1vw, 1.5rem);
+    margin-block-end: clamp(1.5rem, 1rem + 1vw, 2.5rem);
+}
+
+/* bar: we style the bar container and the actual element is a child which width 
+is calculated via custom proerty calculated with JS */
+.progressBar{
+    height: 40%;
+    width: var(--slider-progress, 0%);
+    border-radius: 2rem;
+    background-color: var(--purple-600);
+    pointer-events: none;
+    transition: 0.2s ease-in;
+}
+
+    .progressBarContainer{
+    
+    background-color: var(--white);
+    width: 100%;
+    height: 0.8rem;
+    border-radius: 2rem;
+    margin-block-end: 2.5rem ;
+    box-shadow:0 2px 1px hsl(0deg 0% 0% / 0.02),
+      0 2px 2px hsl(0deg 0% 0% / 0.02),
+      0 4px 4px hsl(0deg 0% 0% / 0.02),
+      0 8px 8px hsl(0deg 0% 0% / 0.02),
+      0 16px 16px hsl(0deg 0% 0% / 0.02);
+      display: flex;
+      align-items: center;
+      padding-inline: 0.2rem;
+      transition: background-color 0.3s ease-in-out ;
+    }
+
+
+
+h1{
+    font-size:  clamp(2.5rem, 2rem + 3vw, 4rem);
+    max-width:30rem ;
+    font-weight: 400;
+}
+
+
+
+/* these are the answeres*/
+.questions{
+    font-size: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+    font-weight: 500;
+     margin-block-start: clamp(1rem, 1rem + 1vw, 1.5rem);
+    margin-block-end: clamp(1.5rem, 1rem + 1vw, 2.5rem);
+}
+
+/* answer cards */
+
+form{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,1fr);
+    gap: clamp(0.5rem, 0.5rem + 1vw, 1rem)
+}
+
+/* remove the default checkbox styling from cards */
+input[type="radio"]{
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* these icons are used to both style the icon in the home button, and cards
+i used JS to make it style dynamically  */
+.HTML-icon{
+    background-color:var(--orange-50) ;
+}
+.CSS-icon{
+    background-color: var(--green-100);
+}
+.JavaScript-icon{
+    background-color: var(--blue-50);
+}
+.Accessibility-icon{
+    background-color: var(--purple-100);
+}
+
+
+/* icon at the score page styling */
+.quizzIconContainer{
+    width: clamp(1.4rem, 1.4rem + 2vw, 4rem);
+    height: clamp(1.4rem, 1.4rem + 2vw, 4rem);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quizzIconContainer img{
+    width: 80%;
+}
+
+/* content in the cards */
+.boxAndText{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    width: 90%;
+}
+
+.card:has(input[type="radio"]:checked){
+    outline: 3px solid var(--purple-600);
+    
+}
+
+
+/* score page */
+
+.result{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,1fr);
+}
+
+.quizzSubject{
+    font-size:clamp(1.1rem, 0.7rem + 1vw, 1.75rem);
+    font-weight: bold;
+}
+
+.scoreDetails{
+    width: 100%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 1rem + 1vw, 2.5rem);
+    padding-block: clamp(2rem, 2rem + 2vw, 3rem);
+    padding-inline: clamp(2rem, 2rem + 2vw, 3rem);
+    margin-block-end: clamp(1rem, 0.9rem + 0.05vw, 2rem) ;
+    border-radius: 1rem;
+    box-shadow:  0 2px 1px hsl(0deg 0% 0% / 0.02),
+      0 2px 2px hsl(0deg 0% 0% / 0.02),
+      0 4px 4px hsl(0deg 0% 0% / 0.02),
+      0 8px 8px hsl(0deg 0% 0% / 0.02),
+      0 16px 16px hsl(0deg 0% 0% / 0.02);
+      max-width: 40rem;
+      transition:background-color 0.3s ease-in-out ;
+}
+
+.completion{
+    margin-block-end: clamp(2.5rem, 2.3rem + 0.05vw, 4rem); 
+}
+
+
+.subjectEndPage{
+    font-size: clamp(1rem, 0.9rem + 2vw, 1.5rem);
+    font-weight: bold;
+}
+
+.iconAndSubject{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 0.5rem + 0.1vw, 1.5rem);
+}
+
+.score{
+   font-size: clamp(5.5rem, 5rem + 3vw, 9rem);
+
+}
+
+
+/* utility classes */
+
+
+/* text */
+.smallText{ 
+color: var(--grey-500);
+font-size: clamp(0.9rem , 0.8rem + 1vw, 1.25rem);
+transition: background-color 0.3s ease-in-out;
+}
+
+/* card */
+
+.card {
+    background-color: var(--white);
+    border-radius:1rem ;
+    padding-block: clamp(0.5rem, 0.5rem + 1vw, 1.5rem);
+    padding-inline: clamp(0.5rem, 0.5rem + 1vw, 1.5rem);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: clamp(1.1rem, 0.7rem + 0.1vw, 1.75rem);
+    box-shadow: 0 2px 1px hsl(0deg 0% 0% / 0.02),
+      0 2px 2px hsl(0deg 0% 0% / 0.02),
+      0 4px 4px hsl(0deg 0% 0% / 0.02),
+      0 8px 8px hsl(0deg 0% 0% / 0.02),
+      0 16px 16px hsl(0deg 0% 0% / 0.02);
+      transition:  background-color 0.2s ease-in-out;
+       font-size: clamp(1.1rem, 0.5rem + 1vw, 1.75rem);
+    
+}
+
+
+
+.cardsText{
+    transition: 0.3s ease-in-out;
+}
+
+/* highlite the checked card */
+.card:has(input[type="radio"]:checked) .Letter{
+    background-color: var(--purple-600);
+    color: var(--white);
+}
+
+/* correct or incorrect images */
+.statusIamge{
+    width: clamp(1.5rem, 1rem + 2vw, 2.5rem )
+}
+
+/* box */
+.box{
+    width: clamp(2.5rem, 2.5rem + 1vw, 3.5rem);
+    height: clamp(2.5rem, 2.5rem + 1vw, 3.5rem);
+    min-width: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box img{
+    width: 70%;
+}
+
+.Letter{
+    background-color: var(--grey-50);
+    color: var(--grey-500);
+}
+
+/* button */
+
+.btn{
+    padding-block: clamp(1rem, 1rem + 1vw, 1.5rem);
+    border: none;
+    background-color: var(--purple-600);
+    border-radius: 1rem;
+    color: var(--white);
+  font-size: clamp(1.1rem, 0.7rem + 1vw, 1.75rem);
+  font-weight: bold;
+  transition: opacity 0.3s ease-in-out;
+  width: 100%;
+}
+
+/* Dark mode  */
+
+body.dark-mode{
+    color: var(--white);
+    background-color: var(--blue-900);
+}
+
+body.dark-mode .card{
+    background-color: var(--blue-850);
+}
+
+body.dark-mode .progressBarContainer{
+ background-color: var(--blue-850);
+}
+
+body.dark-mode  .scoreDetails{
+    background-color: var(--blue-850);
+}
+
+body.dark-mode .smallText{
+    color: var(--blue-300);
+}
+
+
+/* toggelable classes for JS */
+.wrongAnswerCard{
+    outline: 3px solid var(--red);
+}
+.wrongAnswerBox{
+    background-color: var(--red);
+    color: var(--white);
+}
+.correctAnswerCard{
+    outline: 3px solid var(--green-500);
+}
+
+.correctAnswerBox{
+    background-color: var(--green-500);
+    color: var(--white);
+}
+
+/* correctness icons */
+.card.showCorrectIcon .statusIamgeRight{
+    display: block;
+}
+
+.card.showWrongIcon .statusIamgeWrong{
+    display: block;
+}
+
+
+/* error message */
+.error{
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+margin: 0 auto;
+gap: 0.3rem;
+font-size:clamp(1.1rem, 1rem + 0.5vw, 1.75rem) ;
+}
+.error img{
+    width: clamp(1.5rem, 1rem + 1.5vw, 2.5rem )
+}
+
+/* to lock the cards on answer */
+.noANswerChange{
+    pointer-events: none;
+}
+
+/* media tablet */
+@media(min-width: 46rem){
+
+     body::before{
+     background-image: url(assets/images/pattern-background-tablet-light.svg);
+   
+}
+
+    body::after{
+     background-image: url(assets/images/pattern-background-tablet-dark.svg);
+}
+
+   .modeSlider{
+     width:3rem;
+     height: 1.75rem;}
+
+    .onOrOff::before{width: 1.25rem;
+     height: 1.25rem;
+     left: 5px;
+    }
+/* increasing the travel distance because dimensions changed on the modeSlider */
+    input[type="checkbox"]:checked + .onOrOff::before{
+     transform: translateX(1.1rem) ;
+}
+}
+
+
+
+/* media Desktop */
+@media(min-width:69rem ){
+    body::before{
+    background-image: url(assets/images/pattern-background-desktop-light.svg);
+   
+}
+
+body::after{
+    background-image: url(assets/images/pattern-background-desktop-dark.svg);
+}
+
+/* to shift layout with a reasonable widths */
+    .quizz{
+        grid-template-columns: repeat(auto-fit, minmax(20rem,1fr));
+        gap: 2rem;
+    }
+    .main-wrapper{
+        max-width: 70rem;
+        width: 80%;
+        
+    }
+    .introOrQuestion{
+        max-width: 30rem;
+         position: relative;
+     
+    }
+.progressBarContainer{
+    position: absolute;
+    top: 24rem;
+    height: 1rem;
+    
+}
+
+    h1{
+        font-size:  clamp(3rem, 0.5rem + 3.85vw, 4rem);
+    }
+    .box{
+        min-width: 3.5rem;
+    }
+
+    .result{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem,1fr));
+    }
+
+    /* hover effects */
+
+    .card:hover{
+    cursor: pointer;
+    outline: 2px solid var(--text-theme-color);
+    
+}
+
+.selection:hover{
+    outline: 2px solid var(--purple-600);
+}
+
+.card:hover .cardsText{
+   color: var(--text-theme-color);
+}
+.card:hover .Letter{
+    background-color: var(--purple-100);
+    color: var(--purple-600);
+}
+.onOrOff:hover{
+    cursor: pointer;
+}
+.btn:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
+.quizzDetails:hover{
+cursor: pointer;
+}
+}
+
+.hidden{
+    display: none 
+}
