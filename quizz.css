@@ -49,7 +49,7 @@ body{
     min-height: 100svh;
     background-color: hsla(228, 33%, 97%, 0.715);
     transition: 0.3s ease-in-out;
-    padding-block-start: clamp(1rem, 1rem + 5vw, 6rem);
+    padding-block-start: clamp(1rem, 1rem + 3vw, 4rem);
     padding-block-end: clamp(1rem, 1rem + 3vw, 3rem);
  
 }
