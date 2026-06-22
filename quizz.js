@@ -22,7 +22,7 @@ let state = {
 // load the prefered user theme on page load
 const savedTheme = localStorage.getItem('theme')
 
-if(savedTheme == 'dark'){
+if(savedTheme === 'dark'){
     changeTheme()
     DOM.slider.checked = true
 }
@@ -52,14 +52,18 @@ function saveTheme(){
 
 async function fetchAnswers(){
     try{
-     const response = await fetch('https://raw.githubusercontent.com/Zekrozs/quizzApp/refs/heads/main/data.json')
-     if (response.ok){
-      state.allQuizzes = await response.json()
-        
+     const response = await fetch('https://raw.githubusercontent.com/ZekroApp/refs/heads/main/data.json')
+     if (!response.ok){
+      // exit the try and go immedietly to the cathc
+        throw new Error(`error cant't fetch quizzes!, Status : ${response.status}`)
      }
+       state.allQuizzes = await response.json()
      
-    } catch{
-    alert('something went wrong, please try again later')
+    } catch(error){
+     // log the error in th console
+    console.error('someting went wrong', error)
+    
+    alert(`something went wrong, please try again later`)
     }
     
 }
