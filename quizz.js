@@ -311,6 +311,7 @@ if(e.target.id == 'switch'){
 const subject = target.closest('[data-quizz]')
 
 if (subject){
+ if (!state.allQuizzes) return
    startQuiz(subject) 
 }
 
@@ -319,7 +320,7 @@ if (subject){
 const button = target.closest('[data-state]')
 
 if (button){
-
+if (!state.allQuizzes) return
 changeState(button) 
 
 
