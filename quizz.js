@@ -78,12 +78,14 @@ function specifySelectedQuiz(options){
 }
 
 function updateSubjectAndIcon(){
-    if (state.allQuizzes){
- const quizzSubject = document.querySelectorAll('.quizzSubject')
+const quizzSubject = document.querySelectorAll('.quizzSubject')
 const quizzIcon = document.querySelectorAll('.quizzIcon')
 const quizzIconContainer = document.querySelectorAll('.quizzIconContainer')
 
- quizzSubject.forEach((item ,index) =>{
+if (quizzSubject == 0 || quizzIcon == 0 || quizzIconContainer == 0) return
+
+    if (state.allQuizzes){
+    quizzSubject.forEach((item ,index) =>{
     quizzSubject[index].textContent = state.activeQuizz.title
     quizzIcon[index].src = state.activeQuizz.icon
  })
@@ -96,11 +98,13 @@ const quizzIconContainer = document.querySelectorAll('.quizzIconContainer')
 
 function showBar(){
     let progressBar = document.querySelector('.progressBarContainer')
+    if(!progressBar) return
     progressBar.classList.remove('hidden')
 }
 
 
 function loadQuestions(){
+     if (DOM.Question.length == 0 || DOM.option.length == 0 || DOM.answerDOM.length == 0) return 
     const currentData = state.activeQuizz.questions[state.currentIndex]
     const {question, options} = currentData
     DOM.Question.textContent = question
@@ -114,6 +118,8 @@ function loadQuestions(){
 function switchToQuizScreen(){
     const welcomeText = document.querySelector('.welcomeText')
     const pickSubjectText = document.querySelector('.welcome')
+
+    if(DOM.Question.length == 0 || DOM.card.length == 0|| DOM.selection.length == 0|| !DOM.quizzButton || !welcomeText || !pickSubjectText) return
     DOM.Question.classList.remove('hidden')
     welcomeText.classList.add('hidden')
     pickSubjectText.classList.add('hidden')
@@ -126,6 +132,7 @@ function switchToQuizScreen(){
 
 function progressVisual(){
 const trackBar = document.querySelector('.progressBar')
+if (!trackBar || !DOM.currentQuestionNumber ) return
 const min = 0
 const max = state.activeQuizz.questions.length
 const progress = state.currentIndex
@@ -143,7 +150,7 @@ function nextQuestion(){
 
 
 function clearStateForNextQ(){
-
+if (!DOM.selection || !DOM.quizzButton ) return
     DOM.selection.forEach((selection,index) => {
      selection.classList.remove('showCorrectIcon','correctAnswerCard','showWrongIcon','wrongAnswerCard')
      selection.querySelector('.Letter').classList.remove('correctAnswerBox','wrongAnswerBox')
@@ -158,12 +165,12 @@ function ValidateAnswers(){
     const selectedAnswer = document.querySelector('input[name="option"]:checked')
     const noAnswer = document.querySelector('.error')
     if (!selectedAnswer){
-     noAnswer.classList.remove('hidden')
+     noAnswer?.classList.remove('hidden')
      return false
 
 }
    else{
-    noAnswer.classList.add('hidden')
+    noAnswer?.classList.add('hidden')
 }
   
 
@@ -171,6 +178,7 @@ const parentCard = selectedAnswer.closest('.selection')
 const selectedAnswerIndex = Number(selectedAnswer.value)
 const optionBox = parentCard.querySelector('.Letter')
 const currentData = state.activeQuizz.questions[state.currentIndex]
+if (!parentCard || !optionBox ) return
 // i changed the correct answer from text to correctAnswerIndex in the JSON
 const {correctAnswerIndex} = currentData
 
@@ -233,6 +241,8 @@ function submitQuestion(button){
       const isChecked = Array.from(DOM.answerDOM).some(radio => radio.checked)
       const currentQuizzLength = state.activeQuizz.questions.length
       const answeredCorrectly = ValidateAnswers()
+ 
+      if(!DOM.quizzButton) return
 
       if(!isChecked){
         return isChecked
@@ -255,25 +265,31 @@ function submitQuestion(button){
 
      }
 
-    //  roker function
-function moveToNextQuestion(button){
+    //  wroker function
+function moveToNextQuestionState(button){
         nextQuestion()
-        clearStateForNextQ()
-        progressVisual()
         loadQuestions()
-        lockOptions(false)
+    
         button.dataset.state  = 'submit'
 }
 
-function startQuiz(subject){
+function moveToNextQuestionVisual(button){
+clearStateForNextQ()
+progressVisual()
+lockOptions(false)
+}
+
+function startQuizState(subject){
    specifySelectedQuiz(subject) 
-   updateSubjectAndIcon()
-   switchToQuizScreen()
    loadQuestions()
    uncheckAll()
+}
+
+function startQuizVisual(){
+   updateSubjectAndIcon()
+   switchToQuizScreen()
    showBar()
    progressVisual()
-
 }
 
 function changeState(button){
@@ -286,7 +302,8 @@ function changeState(button){
 
 
     else if(currentState === 'next'){
-       moveToNextQuestion(button)
+       moveToNextQuestionState(button)
+       moveToNextQuestionVisual(button)
     }
 
     else if(currentState === 'stats'){
@@ -312,7 +329,8 @@ const subject = target.closest('[data-quizz]')
 
 if (subject){
  if (!state.allQuizzes) return
-   startQuiz(subject) 
+    startQuizState(subject)
+    startQuizVisual() 
 }
 
 
