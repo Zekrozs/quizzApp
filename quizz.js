@@ -52,7 +52,7 @@ function saveTheme(){
 
 async function fetchAnswers(){
     try{
-     const response = await fetch('https://raw.githubusercontent.com/Zekrozs/quizzApp/refs/heads/main/data.json')
+     const response = await fetch('./data.json')
      if (!response.ok){
       // exit the try and go immedietly to the cathc
         throw new Error(`error cant't fetch quizzes!, Status : ${response.status}`)
