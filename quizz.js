@@ -104,7 +104,7 @@ function showBar(){
 
 
 function loadQuestions(){
-     if (!DOM.Question 0 || DOM.option.length == 0 || DOM.answerDOM.length == 0) return 
+     if (!DOM.Question || DOM.option.length == 0 || DOM.answerDOM.length == 0) return 
     const currentData = state.activeQuizz.questions[state.currentIndex]
     const {question, options} = currentData
     DOM.Question.textContent = question
