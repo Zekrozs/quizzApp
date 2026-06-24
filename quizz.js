@@ -104,7 +104,7 @@ function showBar(){
 
 
 function loadQuestions(){
-     if (DOM.Question.length == 0 || DOM.option.length == 0 || DOM.answerDOM.length == 0) return 
+     if (!DOM.Question 0 || DOM.option.length == 0 || DOM.answerDOM.length == 0) return 
     const currentData = state.activeQuizz.questions[state.currentIndex]
     const {question, options} = currentData
     DOM.Question.textContent = question
@@ -119,7 +119,7 @@ function switchToQuizScreen(){
     const welcomeText = document.querySelector('.welcomeText')
     const pickSubjectText = document.querySelector('.welcome')
 
-    if(DOM.Question.length == 0 || DOM.card.length == 0|| DOM.selection.length == 0|| !DOM.quizzButton || !welcomeText || !pickSubjectText) return
+    if(!DOM.Question.length || DOM.card.length == 0|| DOM.selection.length == 0|| !DOM.quizzButton || !welcomeText || !pickSubjectText) return
     DOM.Question.classList.remove('hidden')
     welcomeText.classList.add('hidden')
     pickSubjectText.classList.add('hidden')
