@@ -119,7 +119,7 @@ function switchToQuizScreen(){
     const welcomeText = document.querySelector('.welcomeText')
     const pickSubjectText = document.querySelector('.welcome')
 
-    if(!DOM.Question.length || DOM.card.length == 0|| DOM.selection.length == 0|| !DOM.quizzButton || !welcomeText || !pickSubjectText) return
+    if(!DOM.Question || DOM.card.length == 0|| DOM.selection.length == 0|| !DOM.quizzButton || !welcomeText || !pickSubjectText) return
     DOM.Question.classList.remove('hidden')
     welcomeText.classList.add('hidden')
     pickSubjectText.classList.add('hidden')
