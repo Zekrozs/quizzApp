@@ -73,7 +73,7 @@ fetchAnswers()
 
 function specifySelectedQuiz(options){
 
-     state.activeQuizz = state.allQuizzes['quizzes'].find(quizz => quizz.title == options.id)
+     state.activeQuizz = state.allQuizzes['quizzes'].find(quizz => quizz.title === options.id)
     
 }
 
@@ -82,7 +82,7 @@ const quizzSubject = document.querySelectorAll('.quizzSubject')
 const quizzIcon = document.querySelectorAll('.quizzIcon')
 const quizzIconContainer = document.querySelectorAll('.quizzIconContainer')
 
-if (quizzSubject == 0 || quizzIcon == 0 || quizzIconContainer == 0) return
+if (quizzSubject.length === 0 || quizzIcon.length === 0 || quizzIconContainer.length === 0) return
 
     if (state.allQuizzes){
     quizzSubject.forEach((item ,index) =>{
@@ -244,9 +244,7 @@ function submitQuestion(button){
  
       if(!DOM.quizzButton) return
 
-      if(!isChecked){
-        return isChecked
-      }
+      if(!isChecked) return
 
        increaseScore(answeredCorrectly)
        uncheckAll()
